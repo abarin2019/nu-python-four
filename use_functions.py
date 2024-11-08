@@ -34,20 +34,58 @@
 Для реализации основного меню можно использовать пример ниже или написать свой
 """
 
-while True:
-    print('1. пополнение счета')
-    print('2. покупка')
-    print('3. история покупок')
-    print('4. выход')
+def account_info(account):
+    print(f"Ваш счет:  {account:.2f} руб")
 
-    choice = input('Выберите пункт меню')
+
+def account_top_up():
+    return float(input("На сколько хотите пополнить счет:  "))
+
+
+def purchase(balance, history):
+    purchase_price = float(input("Введите сумму покупки:  "))
+
+    if purchase_price > balance:
+        print(f"Вам не хватает денег на покупку")
+    else:
+        purchase_name = input("Введите название покупки:  ")
+        balance -= purchase_price
+        history.update({purchase_name: purchase_price})
+
+    return balance, history
+
+def purchase_history(history):
+    print(f"\nИстория покупок: ")
+
+    for key, value in history.items():
+        print(f"{key}: {value:.2f} руб")
+
+
+balance_account = 0
+account_history = {}
+
+while True:
+    print()
+    account_info(balance_account)
+    print()
+    print('1. Пополнение счета')
+    print('2. Покупка')
+    print('3. История покупок')
+    print('4. Выход')
+    print()
+
+    choice = input('Выберите пункт меню:  ')
     if choice == '1':
-        pass
+        balance_account += account_top_up()
+
     elif choice == '2':
-        pass
+        balance_account, account_history = purchase(balance_account, account_history)
+
     elif choice == '3':
-        pass
+        purchase_history(account_history)
+
     elif choice == '4':
         break
+
     else:
         print('Неверный пункт меню')
